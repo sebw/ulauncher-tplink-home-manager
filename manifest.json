@@ -1,32 +1,25 @@
 {
   "required_api_version": "^2.0.0",
-  "name": "Demo",
-  "description": "Demo extension",
-  "developer_name": "Aleksandr Gornostal",
+  "name": "TPLink HS110 Smart Plug Manager",
+  "description": "Turn your Smart Plugs on or off",
+  "developer_name": "Sebastien Wains",
   "icon": "images/icon.png",
   "options": {
     "query_debounce": 0.05
   },
   "preferences": [
     {
-      "id": "demo_kw",
+      "id": "tpl_kw",
       "type": "keyword",
-      "name": "Demo",
-      "default_value": "dm"
+      "name": "TPLink HS110 Smart Plug Manager",
+      "default_value": "plug"
     },
     {
-      "id": "item_name",
-      "type": "input",
-      "name": "Item name",
-      "description": "Name for each item",
-      "default_value": "Item"
-    },
-    {
-      "id": "memo",
+      "id": "ip",
       "type": "text",
-      "name": "Memo",
-      "description": "Write something here",
-      "default_value": ""
+      "name": "Smart Plug IP Addresses (separated by \",\")",
+      "description": "",
+      "default_value": "192.168.1.10,192.168.1.20"
     }
   ]
 }

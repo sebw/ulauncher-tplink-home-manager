@@ -9,6 +9,9 @@ from ulauncher.api.shared.action.RenderResultListAction import RenderResultListA
 from ulauncher.api.shared.action.ExtensionCustomAction import ExtensionCustomAction
 from ulauncher.api.shared.action.HideWindowAction import HideWindowAction
 
+# todo try import
+from pyHS100 import SmartPlug
+
 logger = logging.getLogger(__name__)
 
 
@@ -25,13 +28,31 @@ class KeywordQueryEventListener(EventListener):
     def on_event(self, event, extension):
         items = []
         logger.info('preferences %s' % json.dumps(extension.preferences))
-        for i in range(5):
-            item_name = extension.preferences['item_name']
-            data = {'new_name': '%s %s was clicked' % (item_name, i)}
+        item_name = extension.preferences['ip']
+        item_name_list = item_name.split(',')
+
+        for ip in item_name_list:
+          try:
+            plug = SmartPlug(ip)
+            if plug.state == "OFF":
+                plug_state = "Off"
+                opposite_state = "On"
+            else:
+                opposite_state = "Off"
+                plug_state = "On\nSince TODO\nCurrent Consumption " + str(plug.current_consumption()) + " W"
+            data = {'new_name': 'Turned ' + opposite_state + ' ' +  plug.alias + '!'}
             items.append(ExtensionResultItem(icon='images/icon.png',
-                                             name='%s %s' % (item_name, i),
-                                             description='Item description %s' % i,
-                                             on_enter=ExtensionCustomAction(data, keep_app_open=True)))
+                                               name='Smart Plug %s' % (plug.alias),
+                                               description='Current State %s\n\nModel %s\nIP %s' % (plug_state, plug.model, ip),
+                                               on_enter=ExtensionCustomAction(data, keep_app_open=True)))
+          except:
+            plug_state = "Can't reach the plug %s. Verify the IP address." % ip
+            data = {'new_name': '%s was clicked' % plug}
+            items.append(ExtensionResultItem(icon='images/icon.png',
+                                               name='Smart Plug %s' % (plug.alias),
+                                               description='Current State %s\n\nModel %s\nIP %s' % (plug_state, plug.model, ip),
+                                               on_enter=ExtensionCustomAction(data, keep_app_open=True)))
+
 
         return RenderResultListAction(items)
 
