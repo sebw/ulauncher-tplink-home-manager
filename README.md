@@ -29,3 +29,7 @@ Turning on Smart Plug:
 Smart Plug is on:
 
 <img aligh="center" src="https://blog.wains.be/images/ulauncher_tplink_on.png">
+
+## Known Issues
+
+- Auto discovery not implemented yet

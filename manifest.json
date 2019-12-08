@@ -1,7 +1,7 @@
 {
   "required_api_version": "^2.0.0",
   "name": "TPLink HS110 Smart Plug Manager",
-  "description": "Turn your Smart Plugs on or off",
+  "description": "Manage your TPLink Smart Plugs",
   "developer_name": "Sebastien Wains",
   "icon": "images/icon.png",
   "options": {
@@ -17,9 +17,9 @@
     {
       "id": "ip",
       "type": "text",
-      "name": "Smart Plug IP Addresses, separated by space. If no IP addresses are given, autodiscovery will try to find your devices, making the extension slower.",
+      "name": "Smart Plug IP Addresses, separated by space",
       "description": "",
-      "default_value": "192.168.1.10,192.168.1.20"
+      "default_value": "192.168.1.10 192.168.1.20"
     }
   ]
 }
