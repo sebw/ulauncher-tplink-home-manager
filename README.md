@@ -32,4 +32,4 @@ Smart Plug is on:
 
 ## Known Issues
 
-- Auto discovery not implemented yet
+- Limited to plugs with static iP. Auto discovery not implemented yet (as it doesn't work for me, not sure if library bug or problem on my end).
