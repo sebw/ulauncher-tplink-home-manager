@@ -17,7 +17,7 @@
     {
       "id": "ip",
       "type": "text",
-      "name": "Smart Plug IP Addresses (separated by \",\")",
+      "name": "Smart Plug IP Addresses, separated by space. If no IP addresses are given, autodiscovery will try to find your devices, making the extension slower.",
       "description": "",
       "default_value": "192.168.1.10,192.168.1.20"
     }
