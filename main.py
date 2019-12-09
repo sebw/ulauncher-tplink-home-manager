@@ -35,8 +35,9 @@ class KeywordQueryEventListener(EventListener):
         except:
             logger.info('Python library missing.')
             items.append(ExtensionResultItem(icon='images/icon.png',
-                                                    name='Python library pyHS100 missing. See extension README.',
-                                                    on_enter=ExtensionCustomAction('Nothing I can do for you.', keep_app_open=False)))
+                                             name='Python library pyHS100 missing. See extension README.',
+                                             on_enter=ExtensionCustomAction('Nothing I can do for you.',
+                                             keep_app_open=False)))
         else:
             for ip in item_name_list:
                 try:
