@@ -70,7 +70,7 @@ class KeywordQueryEventListener(EventListener):
                 except:
                     logger.info('Failed to communicate with device.')
 
-                    data = {'new_name': 'Failed to communication with Smart Plug ' + plug.alias
+                    data = {'new_name': 'Failed to communicate with Smart Plug ' + plug.alias
                            }
 
                     items.append(ExtensionResultItem(icon='images/icon.png',
