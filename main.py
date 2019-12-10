@@ -34,7 +34,7 @@ class KeywordQueryEventListener(EventListener):
             from pyHS100 import SmartPlug
         except:
             logger.info('Python library missing.')
-            items.append(ExtensionResultItem(icon='images/icon.png',
+            items.append(ExtensionResultItem(icon='images/icon_unreachable.png',
                                              name='Python library pyHS100 missing. See extension README.',
                                              on_enter=ExtensionCustomAction('Nothing I can do for you.',
                                              keep_app_open=False)))
@@ -51,6 +51,7 @@ class KeywordQueryEventListener(EventListener):
                     if plug.state == "OFF":
                         plug_state = "OFF"
                         opposite_state = "On"
+                        plug_icon = 'images/icon_off.png'
                     elif plug.state == "ON":
                         plug_since = plug.on_since
                         now = datetime.datetime.now()
@@ -58,12 +59,13 @@ class KeywordQueryEventListener(EventListener):
                         diff_display = diff.seconds / 60
                         plug_state = "ON\nFor " + str(int(diff_display)) + " minutes (Current Consumption " + str(plug.current_consumption()) + " w)"
                         opposite_state = "Off"
+                        plug_icon = 'images/icon_on.png'
 
                     data = {'new_name': 'Turning ' + opposite_state + ' ' + plug.alias + '!',
                             'target': ip, 
                             'desired_state': opposite_state}
 
-                    items.append(ExtensionResultItem(icon='images/icon.png',
+                    items.append(ExtensionResultItem(icon=plug_icon,
                                                     name='Smart Plug %s' % (plug.alias),
                                                     description='%s - %s\n\nCurrent State %s\nIP %s' % (plug_name, plug.model, plug_state, ip),
                                                     on_enter=ExtensionCustomAction(data, keep_app_open=True)))
@@ -74,7 +76,7 @@ class KeywordQueryEventListener(EventListener):
                     data = {'new_name': 'Failed to communicate with Smart Plug ' + plug.alias
                            }
 
-                    items.append(ExtensionResultItem(icon='images/icon.png',
+                    items.append(ExtensionResultItem(icon='images/icon_unreachable.png',
                                                     name='Smart Plug %s is not reachable.' % ip,
                                                     on_enter=ExtensionCustomAction(data, keep_app_open=False)))
 
@@ -93,10 +95,12 @@ class ItemEnterEventListener(EventListener):
 
         if data['desired_state'] == "On":
             plug.turn_on()
+            plug_icon = 'images/icon_on.png'
         elif data['desired_state'] == "Off":
             plug.turn_off()
+            plug_icon = 'images/icon_off.png'
 
-        return RenderResultListAction([ExtensionResultItem(icon='images/icon.png',
+        return RenderResultListAction([ExtensionResultItem(icon=plug_icon,
                                                            name=data['new_name'],
                                                            on_enter=HideWindowAction())])
 
