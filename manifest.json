@@ -15,11 +15,18 @@
       "default_value": "plug"
     },
     {
-      "id": "ip",
+      "id": "plug_ip",
       "type": "text",
       "name": "Smart Plug IP Addresses, separated by space",
       "description": "",
       "default_value": "192.168.1.10 192.168.1.20"
+    },
+    {
+      "id": "bulb_ip",
+      "type": "text",
+      "name": "Smart Bulb IP Addresses, separated by space",
+      "description": "",
+      "default_value": "192.168.1.23 192.168.1.71"
     }
   ]
 }

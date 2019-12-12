@@ -27,8 +27,10 @@ class KeywordQueryEventListener(EventListener):
     def on_event(self, event, extension):
         items = []
         logger.info('preferences %s' % json.dumps(extension.preferences))
-        item_name = extension.preferences['ip']
-        item_name_list = item_name.split(' ')
+        plug_name = extension.preferences['plug_ip']
+        plug_name_list = plug_name.split(' ')
+        bulb_name = extension.preferences['bulb_ip']
+        bulb_name_list = bulb_name.split(' ')
 
         try:
             from pyHS100 import SmartPlug
@@ -39,7 +41,7 @@ class KeywordQueryEventListener(EventListener):
                                              on_enter=ExtensionCustomAction('Nothing I can do for you.',
                                              keep_app_open=False)))
         else:
-            for ip in item_name_list:
+            for ip in plug_name_list:
                 try:
                     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
                     s.connect((ip, int(9999)))
@@ -78,6 +80,47 @@ class KeywordQueryEventListener(EventListener):
 
                     items.append(ExtensionResultItem(icon='images/icon_unreachable.png',
                                                     name='Smart Plug %s is not reachable.' % ip,
+                                                    on_enter=ExtensionCustomAction(data, keep_app_open=False)))
+
+            for ip in bulb_name_list:
+                try:
+                    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                    s.connect((ip, int(9999)))
+                    s.shutdown(2)
+                    bulb = SmartBulb(ip)
+
+                    bulb_name = bulb.hw_info['dev_name']
+
+                    if bulb.state == "OFF":
+                        bulb_state = "OFF"
+                        opposite_state = "On"
+                        bulb_icon = 'images/icon_off.png'
+                    elif bulb.state == "ON":
+                        bulb_since = bulb.on_since
+                        now = datetime.datetime.now()
+                        diff = now - bulb_since
+                        diff_display = diff.seconds / 60
+                        bulb_state = "ON\nFor " + str(int(diff_display)) + " minutes (Current Consumption " + str(bulb.current_consumption()) + " w)"
+                        opposite_state = "Off"
+                        bulb_icon = 'images/icon_on.png'
+
+                    data = {'new_name': 'Turning ' + opposite_state + ' ' + bulb.alias + '!',
+                            'target': ip, 
+                            'desired_state': opposite_state}
+
+                    items.append(ExtensionResultItem(icon=bulb_icon,
+                                                    name='Smart bulb %s' % (bulb.alias),
+                                                    description='%s - %s\n\nCurrent State %s\nIP %s' % (bulb_name, bulb.model, bulb_state, ip),
+                                                    on_enter=ExtensionCustomAction(data, keep_app_open=True)))
+
+                except:
+                    logger.info('Failed to communicate with device.')
+
+                    data = {'new_name': 'Failed to communicate with Smart bulb ' + bulb.alias
+                           }
+
+                    items.append(ExtensionResultItem(icon='images/icon_unreachable.png',
+                                                    name='Smart bulb %s is not reachable.' % ip,
                                                     on_enter=ExtensionCustomAction(data, keep_app_open=False)))
 
         return RenderResultListAction(items)
