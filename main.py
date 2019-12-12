@@ -34,6 +34,7 @@ class KeywordQueryEventListener(EventListener):
 
         try:
             from pyHS100 import SmartPlug
+            from pyHS100 import SmartBulb
         except:
             logger.info('Python library missing.')
             items.append(ExtensionResultItem(icon='images/icon_unreachable.png',
