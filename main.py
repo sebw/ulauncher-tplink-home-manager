@@ -84,7 +84,7 @@ class KeywordQueryEventListener(EventListener):
                                 'desired_state': opposite_state}
 
                         items.append(ExtensionResultItem(icon=plug_icon,
-                                                        name='Smart Plug - %s' % (plug.alias),
+                                                        name='%s' % (plug.alias),
                                                         description='%s - %s\n\nCurrent State %s\nIP %s' % (plug_desc, plug.model, plug_state, ip),
                                                         on_enter=ExtensionCustomAction(data, keep_app_open=True)))
 
@@ -123,7 +123,7 @@ class KeywordQueryEventListener(EventListener):
                                 'desired_state': opposite_state}
 
                         items.append(ExtensionResultItem(icon=bulb_icon,
-                                                        name='Smart Bulb - %s' % (bulb.alias),
+                                                        name='%s' % (bulb.alias),
                                                         description='%s - %s\n\nCurrent State %s\nIP %s' % (bulb_desc, bulb.model, bulb_state, ip),
                                                         on_enter=ExtensionCustomAction(data, keep_app_open=True)))
 
