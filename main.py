@@ -59,6 +59,7 @@ class KeywordQueryEventListener(EventListener):
                         plug = p.SmartPlug(ip)
 
                         plug_name = plug.hw_info['dev_name']
+                        plug_feature = plug.get_sysinfo()['feature']
 
                         if plug.state == "OFF":
                             plug_state = "OFF"
@@ -70,11 +71,11 @@ class KeywordQueryEventListener(EventListener):
                             diff = now - plug_since
                             diff_display = diff.seconds / 60
                             
-                            if plug.get_sysinfo['feature'] == "TIM":
+                            if plug_feature == "TIM":
                                 plug_state = "ON\nFor " + str(int(diff_display)) + " minutes"
-                            else:
+                            elif plug_feature == "TIM:ENE":
                                 plug_state = "ON\nFor " + str(int(diff_display)) + " minutes (Current Consumption " + str(plug.current_consumption()) + " w)"
-                                
+
                             opposite_state = "Off"
                             plug_icon = 'images/icon_on.png'
 

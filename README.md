@@ -2,7 +2,8 @@
 
 ## Supported models
 
-- HS110 Smart Plug
+- HS100 Smart Plug
+- HS110 Smart Plug with Energy Monitor
 - KL60 Smart Bulb
 
 ## If you want support for more device
@@ -23,7 +24,6 @@ This extension only works for devices on the local network. You can't remotely c
 
 ## Known Issues
 
-- No support for HS100. Please provide me with the `plug.get_sysinfo()` output so I can support HS100.
 - Limited to plugs with static IP.
 
 ## To Do

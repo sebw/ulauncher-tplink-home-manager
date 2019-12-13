@@ -18,7 +18,7 @@
       "id": "plug_ip",
       "type": "text",
       "name": "Smart Plug IP addresses, separated by a space",
-      "description": "Supported model: HS110",
+      "description": "Supported models: HS100, HS110",
       "default_value": ""
     },
     {
