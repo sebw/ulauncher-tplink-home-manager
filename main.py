@@ -58,7 +58,7 @@ class KeywordQueryEventListener(EventListener):
                         s.shutdown(2)
                         plug = p.SmartPlug(ip)
 
-                        plug_name = plug.hw_info['dev_name']
+                        plug_desc = plug.hw_info['dev_name']
                         plug_feature = plug.get_sysinfo()['feature']
 
                         if plug.state == "OFF":
@@ -84,8 +84,8 @@ class KeywordQueryEventListener(EventListener):
                                 'desired_state': opposite_state}
 
                         items.append(ExtensionResultItem(icon=plug_icon,
-                                                        name='Smart Plug %s' % (plug.alias),
-                                                        description='%s - %s\n\nCurrent State %s\nIP %s' % (plug_name, plug.model, plug_state, ip),
+                                                        name='Smart Plug - %s' % (plug.alias),
+                                                        description='%s - %s\n\nCurrent State %s\nIP %s' % (plug_desc, plug.model, plug_state, ip),
                                                         on_enter=ExtensionCustomAction(data, keep_app_open=True)))
 
                     except:
@@ -107,7 +107,7 @@ class KeywordQueryEventListener(EventListener):
                         s.shutdown(2)
                         bulb = p.SmartBulb(ip)
 
-                        bulb_sysinfo = bulb.get_sysinfo()
+                        bulb_desc = bulb.get_sysinfo()["description"]
 
                         if bulb.state == "OFF":
                             bulb_state = "OFF"
@@ -123,8 +123,8 @@ class KeywordQueryEventListener(EventListener):
                                 'desired_state': opposite_state}
 
                         items.append(ExtensionResultItem(icon=bulb_icon,
-                                                        name='Smart Bulb %s' % (bulb.alias),
-                                                        description='%s\n\nCurrent State %s\nIP %s' % (bulb.model, bulb_state, ip),
+                                                        name='Smart Bulb - %s' % (bulb.alias),
+                                                        description='%s - %s\n\nCurrent State %s\nIP %s' % (buld_desc, bulb.model, bulb_state, ip),
                                                         on_enter=ExtensionCustomAction(data, keep_app_open=True)))
 
                     except:
