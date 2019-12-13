@@ -69,7 +69,12 @@ class KeywordQueryEventListener(EventListener):
                             now = datetime.datetime.now()
                             diff = now - plug_since
                             diff_display = diff.seconds / 60
-                            plug_state = "ON\nFor " + str(int(diff_display)) + " minutes (Current Consumption " + str(plug.current_consumption()) + " w)"
+                            
+                            if plug.get_sysinfo['feature'] == "TIM":
+                                plug_state = "ON\nFor " + str(int(diff_display)) + " minutes"
+                            else:
+                                plug_state = "ON\nFor " + str(int(diff_display)) + " minutes (Current Consumption " + str(plug.current_consumption()) + " w)"
+                                
                             opposite_state = "Off"
                             plug_icon = 'images/icon_on.png'
 
