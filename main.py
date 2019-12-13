@@ -124,7 +124,7 @@ class KeywordQueryEventListener(EventListener):
 
                         items.append(ExtensionResultItem(icon=bulb_icon,
                                                         name='Smart Bulb - %s' % (bulb.alias),
-                                                        description='%s - %s\n\nCurrent State %s\nIP %s' % (buld_desc, bulb.model, bulb_state, ip),
+                                                        description='%s - %s\n\nCurrent State %s\nIP %s' % (bulb_desc, bulb.model, bulb_state, ip),
                                                         on_enter=ExtensionCustomAction(data, keep_app_open=True)))
 
                     except:
