@@ -2,7 +2,12 @@
 
 ## Supported models
 
-HS110 is the only supported model for now, as it is the only model I own :-)
+- HS110 Smart Plug
+- KL60 Smart Bulb
+
+## If you want support for more device
+
+Contact me! I will ask for some Python output from your device.
 
 ## Requirements
 
@@ -33,4 +38,8 @@ Smart Plug is on:
 ## Known Issues
 
 - No support for HS100. Please provide me with the `plug.get_sysinfo()` output so I can support HS100.
-- Limited to plugs with static iP. Auto discovery not implemented yet (as it doesn't work for me, not sure if library bug or problem on my end).
+- Limited to plugs with static IP.
+
+## To Do
+
+- Implement auto-discovery, but it doesn't work properly for me (maybe because my devices are in a large subnet).
