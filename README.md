@@ -1,4 +1,4 @@
-# TPLink Smart Plug Manager
+# TPLink Smart Home Manager
 
 ## Supported models
 
