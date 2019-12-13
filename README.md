@@ -17,23 +17,9 @@ Install the `pyHS100` Python library:
 
 This extension only works for devices on the local network. You can't remotely control your switches.
 
-## Screenshots
+## Demo
 
-Calling the extension:
-
-<img aligh="center" src="https://blog.wains.be/images/ulauncher_tplink_plug.png">
-
-Smart Plug is off:
-
-<img aligh="center" src="https://blog.wains.be/images/ulauncher_tplink_off.png">
-
-Turning on Smart Plug:
-
-<img aligh="center" src="https://blog.wains.be/images/ulauncher_tplink_turned_on.png">
-
-Smart Plug is on:
-
-<img aligh="center" src="https://blog.wains.be/images/ulauncher_tplink_on.png">
+<img aligh="center" src="https://raw.githubusercontent.com/sebw/ulauncher-tplink-home-manager/master/demo/demo.gif">
 
 ## Known Issues
 
