@@ -17,7 +17,7 @@
     {
       "id": "debug",
       "type": "text",
-      "name": "Display IP address?",
+      "name": "Display IP address and model?",
       "default_value": "False",
       "description": "Values: True, False"
     },

@@ -66,22 +66,22 @@ class KeywordQueryEventListener(EventListener):
                         plug_alias = plug_sysinfo['alias']
 
                         if plug_state == 0:
-                            plug_state_text = "OFF"
+                            plug_state_onoff = "Off"
                             opposite_state = "On"
                             plug_icon = 'images/icon_off.png'
+                            plug_state_text = ''
                         elif plug_state == 1:
+                            plug_state_onoff = "On"
+                            opposite_state = "Off"
+                            plug_icon = 'images/icon_on.png'
                             plug_since = plug.on_since
                             now = datetime.datetime.now()
                             diff = now - plug_since
                             diff_display = diff.seconds / 60
-                            
                             if plug_feature == "TIM":
-                                plug_state_text = "ON\nFor " + str(int(diff_display)) + " minutes"
+                                plug_state_text = "For " + str(int(diff_display)) + " minutes"
                             elif plug_feature == "TIM:ENE":
-                                plug_state_text = "ON\nFor " + str(int(diff_display)) + " minutes\nCurrent Consumption " + str(plug.current_consumption()) + " w"
-
-                            opposite_state = "Off"
-                            plug_icon = 'images/icon_on.png'
+                                plug_state_text = "For " + str(int(diff_display)) + " minutes\nCurrent Consumption " + str(plug.current_consumption()) + " w"
 
                         data = {'new_name': 'Turning ' + opposite_state + ' ' + plug_alias + '!',
                                 'device_type': 'plug',
@@ -90,13 +90,13 @@ class KeywordQueryEventListener(EventListener):
 
                         if extension.preferences["debug"] == "False":
                             items.append(ExtensionResultItem(icon=plug_icon,
-                                                            name='%s' % (plug_alias),
-                                                            description='%s - %s\n\nCurrent State %s' % (plug_desc, plug_model, plug_state_text),
+                                                            name='%s - %s' % (plug_alias, plug_state_onoff),
+                                                            description='%s\n\n%s' % (plug_desc, plug_state_text),
                                                             on_enter=ExtensionCustomAction(data, keep_app_open=True)))
                         else:
                             items.append(ExtensionResultItem(icon=plug_icon,
-                                                            name='%s' % (plug_alias),
-                                                            description='%s - %s\n\nCurrent State %s\nIP %s' % (plug_desc, plug_model, plug_state_text, ip),
+                                                            name='%s - %s' % (plug_alias, plug_state_onoff),
+                                                            description='%s - %s\n\n%s\nIP %s' % (plug_desc, plug_model, plug_state_text, ip),
                                                             on_enter=ExtensionCustomAction(data, keep_app_open=True)))
 
                     except:
@@ -125,13 +125,15 @@ class KeywordQueryEventListener(EventListener):
                         bulb_model = bulb_sysinfo["model"]
 
                         if bulb_state == 0:
-                            bulb_state_text = "OFF"
+                            bulb_state_onoff = "Off"
                             opposite_state = "On"
                             bulb_icon = 'images/bulb_off.png'
+                            bulb_state_text = ""
                         elif bulb_state == 1:
-                            bulb_state_text = "ON\nCurrent Consumption " + str(bulb.current_consumption()) + " w"
+                            bulb_state_onoff = "On"
                             opposite_state = "Off"
                             bulb_icon = 'images/bulb_on.png'
+                            bulb_state_text = "Current Consumption " + str(bulb.current_consumption()) + " w"
 
                         data = {'new_name': 'Turning ' + opposite_state + ' ' + bulb_alias + '!',
                                 'device_type': 'bulb',
@@ -140,13 +142,13 @@ class KeywordQueryEventListener(EventListener):
 
                         if extension.preferences["debug"] == "False":
                             items.append(ExtensionResultItem(icon=bulb_icon,
-                                                            name='%s' % (bulb_alias),
-                                                            description='%s - %s\n\nCurrent State %s' % (bulb_desc, bulb_model, bulb_state_text),
+                                                            name='%s - %s' % (bulb_alias, bulb_state_onoff),
+                                                            description='%s\n\n%s' % (bulb_desc, bulb_state_text),
                                                             on_enter=ExtensionCustomAction(data, keep_app_open=True)))
                         else:
                             items.append(ExtensionResultItem(icon=bulb_icon,
                                                             name='%s' % (bulb.alias),
-                                                            description='%s - %s\n\nCurrent State %s\nIP %s' % (bulb_desc, bulb.model, bulb_state_text, ip),
+                                                            description='%s - %s\n\n%s\nIP %s' % (bulb_desc, bulb.model, bulb_state_text, ip),
                                                             on_enter=ExtensionCustomAction(data, keep_app_open=True)))
 
                     except:
