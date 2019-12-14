@@ -80,6 +80,7 @@ class KeywordQueryEventListener(EventListener):
                             plug_icon = 'images/icon_on.png'
 
                         data = {'new_name': 'Turning ' + opposite_state + ' ' + plug.alias + '!',
+                                'device_type': 'plug',
                                 'target': ip, 
                                 'desired_state': opposite_state}
 
@@ -119,6 +120,7 @@ class KeywordQueryEventListener(EventListener):
                             bulb_icon = 'images/bulb_on.png'
 
                         data = {'new_name': 'Turning ' + opposite_state + ' ' + bulb.alias + '!',
+                                'device_type': 'bulb',
                                 'target': ip, 
                                 'desired_state': opposite_state}
 
@@ -147,14 +149,17 @@ class ItemEnterEventListener(EventListener):
         import pyHS100 as p
 
         data = event.get_data()
-        # logger.info(data)
-        plug = p.SmartPlug(data['target'])
+
+        if data['device_type'] == "plug":
+            dev = p.SmartPlug(data['target'])
+        elif data['device_type'] == "bulb":
+            dev = p.SmartBulb(data['target'])
 
         if data['desired_state'] == "On":
-            plug.turn_on()
+            dev.turn_on()
             plug_icon = 'images/icon_on.png'
         elif data['desired_state'] == "Off":
-            plug.turn_off()
+            dev.turn_off()
             plug_icon = 'images/icon_off.png'
 
         return RenderResultListAction([ExtensionResultItem(icon=plug_icon,
