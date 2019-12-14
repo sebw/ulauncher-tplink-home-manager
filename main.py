@@ -26,14 +26,14 @@ class KeywordQueryEventListener(EventListener):
         items = []
         logger.info('preferences %s' % json.dumps(extension.preferences))
 
-        # Fetching plug IP from prefs
+        # Fetching plug IP from preferences
         plug_name = extension.preferences['plug_ip']
         if plug_name != "":
             plug_name_list = plug_name.split(' ')
         else:
             plug_name_list = None
 
-        # Fetch light bulb IP from prefs
+        # Fetch light bulb IP from preferences
         bulb_name = extension.preferences['bulb_ip']
         if bulb_name != "":
             bulb_name_list = bulb_name.split(' ')
@@ -58,41 +58,45 @@ class KeywordQueryEventListener(EventListener):
                         s.shutdown(2)
                         plug = p.SmartPlug(ip)
 
-                        plug_desc = plug.hw_info['dev_name']
-                        plug_feature = plug.get_sysinfo()['feature']
+                        plug_sysinfo = plug.get_sysinfo()
+                        plug_model = plug_sysinfo['model']
+                        plug_desc = plug_sysinfo['dev_name']
+                        plug_feature = plug_sysinfo['feature']
+                        plug_state = plug_sysinfo['relay_state']
+                        plug_alias = plug_sysinfo['alias']
 
-                        if plug.state == "OFF":
-                            plug_state = "OFF"
+                        if plug_state == 0:
+                            plug_state_text = "OFF"
                             opposite_state = "On"
                             plug_icon = 'images/icon_off.png'
-                        elif plug.state == "ON":
+                        elif plug_state == 1:
                             plug_since = plug.on_since
                             now = datetime.datetime.now()
                             diff = now - plug_since
                             diff_display = diff.seconds / 60
                             
                             if plug_feature == "TIM":
-                                plug_state = "ON\nFor " + str(int(diff_display)) + " minutes"
+                                plug_state_text = "ON\nFor " + str(int(diff_display)) + " minutes"
                             elif plug_feature == "TIM:ENE":
-                                plug_state = "ON\nFor " + str(int(diff_display)) + " minutes (Current Consumption " + str(plug.current_consumption()) + " w)"
+                                plug_state_text = "ON\nFor " + str(int(diff_display)) + " minutes\nCurrent Consumption " + str(plug.current_consumption()) + " w"
 
                             opposite_state = "Off"
                             plug_icon = 'images/icon_on.png'
 
-                        data = {'new_name': 'Turning ' + opposite_state + ' ' + plug.alias + '!',
+                        data = {'new_name': 'Turning ' + opposite_state + ' ' + plug_alias + '!',
                                 'device_type': 'plug',
                                 'target': ip, 
                                 'desired_state': opposite_state}
 
                         if extension.preferences["debug"] == "False":
                             items.append(ExtensionResultItem(icon=plug_icon,
-                                                            name='%s' % (plug.alias),
-                                                            description='%s - %s\n\nCurrent State %s' % (plug_desc, plug.model, plug_state),
+                                                            name='%s' % (plug_alias),
+                                                            description='%s - %s\n\nCurrent State %s' % (plug_desc, plug_model, plug_state_text),
                                                             on_enter=ExtensionCustomAction(data, keep_app_open=True)))
                         else:
                             items.append(ExtensionResultItem(icon=plug_icon,
-                                                            name='%s' % (plug.alias),
-                                                            description='%s - %s\n\nCurrent State %s\nIP %s' % (plug_desc, plug.model, plug_state, ip),
+                                                            name='%s' % (plug_alias),
+                                                            description='%s - %s\n\nCurrent State %s\nIP %s' % (plug_desc, plug_model, plug_state_text, ip),
                                                             on_enter=ExtensionCustomAction(data, keep_app_open=True)))
 
                     except:
@@ -114,31 +118,35 @@ class KeywordQueryEventListener(EventListener):
                         s.shutdown(2)
                         bulb = p.SmartBulb(ip)
 
-                        bulb_desc = bulb.get_sysinfo()["description"]
+                        bulb_sysinfo = bulb.get_sysinfo()
+                        bulb_desc = bulb_sysinfo["description"]
+                        bulb_alias = bulb_sysinfo["alias"]
+                        bulb_state = bulb_sysinfo["light_state"]["on_off"]
+                        bulb_model = bulb_sysinfo["model"]
 
-                        if bulb.state == "OFF":
-                            bulb_state = "OFF"
+                        if bulb_state == 0:
+                            bulb_state_text = "OFF"
                             opposite_state = "On"
                             bulb_icon = 'images/bulb_off.png'
-                        elif bulb.state == "ON":
-                            bulb_state = "ON\nCurrent Consumption " + str(bulb.current_consumption()) + " w"
+                        elif bulb_state == 1:
+                            bulb_state_text = "ON\nCurrent Consumption " + str(bulb.current_consumption()) + " w"
                             opposite_state = "Off"
                             bulb_icon = 'images/bulb_on.png'
 
-                        data = {'new_name': 'Turning ' + opposite_state + ' ' + bulb.alias + '!',
+                        data = {'new_name': 'Turning ' + opposite_state + ' ' + bulb_alias + '!',
                                 'device_type': 'bulb',
                                 'target': ip, 
                                 'desired_state': opposite_state}
 
                         if extension.preferences["debug"] == "False":
                             items.append(ExtensionResultItem(icon=bulb_icon,
-                                                            name='%s' % (bulb.alias),
-                                                            description='%s - %s\n\nCurrent State %s' % (bulb_desc, bulb.model, bulb_state),
+                                                            name='%s' % (bulb_alias),
+                                                            description='%s - %s\n\nCurrent State %s' % (bulb_desc, bulb_model, bulb_state_text),
                                                             on_enter=ExtensionCustomAction(data, keep_app_open=True)))
                         else:
                             items.append(ExtensionResultItem(icon=bulb_icon,
                                                             name='%s' % (bulb.alias),
-                                                            description='%s - %s\n\nCurrent State %s\nIP %s' % (bulb_desc, bulb.model, bulb_state, ip),
+                                                            description='%s - %s\n\nCurrent State %s\nIP %s' % (bulb_desc, bulb.model, bulb_state_text, ip),
                                                             on_enter=ExtensionCustomAction(data, keep_app_open=True)))
 
                     except:
