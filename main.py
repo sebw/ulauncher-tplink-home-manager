@@ -84,10 +84,16 @@ class KeywordQueryEventListener(EventListener):
                                 'target': ip, 
                                 'desired_state': opposite_state}
 
-                        items.append(ExtensionResultItem(icon=plug_icon,
-                                                        name='%s' % (plug.alias),
-                                                        description='%s - %s\n\nCurrent State %s\nIP %s' % (plug_desc, plug.model, plug_state, ip),
-                                                        on_enter=ExtensionCustomAction(data, keep_app_open=True)))
+                        if extension.preferences["debug"] == "False":
+                            items.append(ExtensionResultItem(icon=plug_icon,
+                                                            name='%s' % (plug.alias),
+                                                            description='%s - %s\n\nCurrent State %s' % (plug_desc, plug.model, plug_state),
+                                                            on_enter=ExtensionCustomAction(data, keep_app_open=True)))
+                        else:
+                            items.append(ExtensionResultItem(icon=plug_icon,
+                                                            name='%s' % (plug.alias),
+                                                            description='%s - %s\n\nCurrent State %s\nIP %s' % (plug_desc, plug.model, plug_state, ip),
+                                                            on_enter=ExtensionCustomAction(data, keep_app_open=True)))
 
                     except:
                         logger.info('Failed to communicate with device.')
@@ -124,10 +130,16 @@ class KeywordQueryEventListener(EventListener):
                                 'target': ip, 
                                 'desired_state': opposite_state}
 
-                        items.append(ExtensionResultItem(icon=bulb_icon,
-                                                        name='%s' % (bulb.alias),
-                                                        description='%s - %s\n\nCurrent State %s\nIP %s' % (bulb_desc, bulb.model, bulb_state, ip),
-                                                        on_enter=ExtensionCustomAction(data, keep_app_open=True)))
+                        if extension.preferences["debug"] == "False":
+                            items.append(ExtensionResultItem(icon=bulb_icon,
+                                                            name='%s' % (bulb.alias),
+                                                            description='%s - %s\n\nCurrent State %s' % (bulb_desc, bulb.model, bulb_state),
+                                                            on_enter=ExtensionCustomAction(data, keep_app_open=True)))
+                        else:
+                            items.append(ExtensionResultItem(icon=bulb_icon,
+                                                            name='%s' % (bulb.alias),
+                                                            description='%s - %s\n\nCurrent State %s\nIP %s' % (bulb_desc, bulb.model, bulb_state, ip),
+                                                            on_enter=ExtensionCustomAction(data, keep_app_open=True)))
 
                     except:
                         logger.info('Failed to communicate with device.')

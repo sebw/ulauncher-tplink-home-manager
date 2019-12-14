@@ -15,6 +15,13 @@
       "default_value": "tplink"
     },
     {
+      "id": "debug",
+      "type": "text",
+      "name": "Display IP address?",
+      "default_value": "False",
+      "description": "Values: True, False"
+    },
+    {
       "id": "plug_ip",
       "type": "text",
       "name": "Smart Plug IP addresses, separated by a space",
